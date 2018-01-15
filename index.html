@@ -49,6 +49,7 @@
 
 <body style="background: #000" class="font-kanit">
   <div class="container"  >
+    <!-- start navbar -->
     <nav class="navbar navbar-inverse" style="margin: 0px">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -61,12 +62,20 @@
         <a class="navbar-brand" href="index.html"><b style="color: #fff">Natthapach</b></a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li><a href="tp-summary_how-a-web-browser-builds-and-displays-a-web-page.html">Topic 1</a></li>          
+          <ul class="nav navbar-nav class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Summarize
+              <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="tp-summary_how-a-web-browser-builds-and-displays-a-web-page.html">Browser build page</a></li> 
+              </ul>
+            </li>         
           </ul>
+         
         </div>
       </div>
     </nav>
+    <!-- end navbar -->
 
     <div id="header">
       <div class="row" style="padding: 16px;">
@@ -91,8 +100,6 @@
             <br> </div>
           <div class="col-xs-12">
             <!-- <hr> -->
-            <div class="col-xs-6"> <b>Date of birth:</b> </div>
-            <div class="col-xs-6"> 16 September 1996 </div>
             <div class="col-xs-6"> <b>Email</b> </div>
             <div class="col-xs-6"> natthapach.a@ku.th </div>
             <div class="col-xs-6"> <b>Facebook</b> </div>

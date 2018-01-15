@@ -50,6 +50,7 @@
 
 <body style="background: #000">
   <div class="container" class="font-kanit">
+    <!-- start navbar -->
     <nav class="navbar navbar-inverse" style="margin: 0px">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -62,12 +63,20 @@
         <a class="navbar-brand" href="index.html"><b style="color: #fff">Natthapach</b></a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li><a href="tp-summary_how-a-web-browser-builds-and-displays-a-web-page.html">Topic 1</a></li>           
+          <ul class="nav navbar-nav class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Summarize
+              <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="tp-summary_how-a-web-browser-builds-and-displays-a-web-page.html">Browser build page</a></li> 
+              </ul>
+            </li>         
           </ul>
+         
         </div>
       </div>
     </nav>
+    <!-- end navbar -->
 
     <div id="body">
       <div class="row">
@@ -162,7 +171,7 @@
               <li>
                 <b>Use for this page</b>
                 <p>
-                เป็น URL ที่ระบุไปยัง resource ที่ต้องใช้เพื่อแสดงผลหน้าเว็บดังกล่าง เช่น ไฟล์ CSS, javascript, image โดย URL ประเภทนี้ browser จะไปโหลดมาให้โดยอัตโนมัติ
+                เป็น URL ที่ระบุไปยัง resource ที่ต้องใช้เพื่อแสดงผลหน้าเว็บดังกล่าวผ เช่น ไฟล์ CSS, javascript, image โดย URL ประเภทนี้ browser จะไปโหลดมาให้โดยอัตโนมัติ
                 </p>
               </li>
               <li>
@@ -180,7 +189,7 @@
             <b class="topic">The step to load HTML</b>
           </h4>
           <p>
-            <b>สรุปขั้นตอนการจะได้มาซึ้ง HTML resouce สำหรับแสดงผลหน้าเว็บ</b>
+            <b>สรุปขั้นตอนการจะได้มาซึ่ง HTML resouce สำหรับแสดงผลหน้าเว็บ</b>
             <ol>
               <li>
                 <p>
@@ -221,11 +230,11 @@
             <b class="topic">Processing HTML</b>
           </h4>
           <p>
-            เมื่อได้รับ HTML มา browser จะทำการ parse(การแบ่งไฟล์ออกเป็นชิ้นๆ และดำเนินการกับแต่ล่ะชั้นนั้นๆ) HTML จะประกอบไปด้วย content และ structure ของหน้าเว็บ
+            เมื่อได้รับ HTML มา browser จะทำการ parse(การแบ่งไฟล์ออกเป็นชิ้นๆ และดำเนินการกับแต่ละชิ้นนั้นๆ) HTML จะประกอบไปด้วย content และ structure ของหน้าเว็บ
             <br><br>
             นอกจากนี้ HTML ก็จะมี URL เพื่อระบุตำแหน่งของ resource อื่นเพื่อใช้ในการแสดงผล เช่น ถ้าหากมี URL สำหรับรูปภาพ browser ก็ต้องไปตาม URL นี้เพื่อนำมาแสดงผล นอกจากนี้ก็ยังมี resource อื่นๆที่ใช้ในการแสดงผล เช่น CSS, javascript
             <br><br>
-            Cascading Style Sheet(CSS) เป็นไฟล์สำหรับกำหนดรูปแบบ, หน้าตา ของเนื้อหาที่จะแสดงบนหน้าเว็บ ส่วน javascript นั้นจะกำหนดพฤติกรรม,การทำงานของหน้าเว็บ เช่นหากมีการกดปุ่ม submit ก็จะรวบรมข้อมูลทั้งหมดใน form ส่งไป
+            Cascading Style Sheet(CSS) เป็นไฟล์สำหรับกำหนดรูปแบบ, หน้าตา ของเนื้อหาที่จะแสดงบนหน้าเว็บ ส่วน javascript นั้นจะกำหนดพฤติกรรม,การทำงานของหน้าเว็บ เช่นหากมีการกดปุ่ม submit ก็จะรวบรวมข้อมูลทั้งหมดใน form ส่งไป
           </p>
         </div>
 
@@ -238,7 +247,7 @@
             <br><br>
             นอกจากนี้ browser ยังได้ทำการ publish document ให้ออกมาในรูปของ Document object model ซึ่ง javascript จะใช้ model นี้เพื่อควบคุมการทำงานต่างๆของหน้าเว็บ
             <br><br>
-            browser ไม่ได้รัน javascript แต่ละอันตามลำดับ แต่จะรันทันที่หาเจอ ดังนั้น javascript programmer ที่ดีคือการเขียน script ที่สามารถรันได้เมื่อทุกอย่างภาพ
+            browser ไม่ได้รัน javascript แต่ละอันตามลำดับ แต่จะรันทันทีที่หาเจอ ดังนั้น javascript programmer ที่ดีคือการเขียน script ที่สามารถรันได้เมื่อทุกอย่างพร้อม
           </p>
         </div>
         <!-- end of row -->
