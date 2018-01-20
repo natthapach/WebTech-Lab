@@ -1,0 +1,343 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>How a web browser builds and displays a web page</title>
+  <!-- Bootstrap -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  <style>
+    .font-kanit{
+        font-family: 'Kanit', sans-serif;
+        font-size: 1.25em; 
+      } 
+    .body {
+      background: #424242;
+      color: white;
+      padding: 16px;
+    }
+    .col-12{
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .topic {
+      color: #90caf9
+    }
+    .col-center{
+
+    }
+    [id="title"]{
+      font-size: 1.5em;
+      text-align:center;
+      color: #90caf9
+    }
+    code{
+      background: #313131;
+      color: white;
+    }
+    .code{
+      background: #313131;
+      color: white;
+      width: auto;
+      margin: 0 auto;
+      display: inline-block;
+      padding: 5px 16px;
+      text-align: left;
+    }
+
+  </style>
+</head>
+
+<body style="background: #000">
+  <div class="container" class="font-kanit">
+    <!-- start navbar -->
+    <nav class="navbar navbar-inverse" style="margin: 0px">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><b style="color: #fff">Natthapach</b></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Summarize
+              <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="tp-summary_1.html">How to browser build page</a></li> 
+                <li><a href="tp-summary_2.html">How to browser render page (part I)</a></li> 
+                <li><a href="tp-summary_3.html">CSS Specificity</a></li>
+              </ul>
+            </li>         
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- end navbar -->
+
+    <div class="body font-kanit">
+      <div class="row">
+        
+        <div class="col-12" id="title">
+          CSS Specificity
+        </div>
+
+        <div class="col-12" id="definition">
+          <h4 class="topic">นิยามคำศัพท์ในบทความ</h4>
+          <p>
+            <ul>
+              <li>
+                <b>HTML element, element</b> <br>
+                หมายถึง HTML tag แต่ละ tag ที่อยู่ในไฟล์ .html
+              </li>
+              <li>
+                <b>HTML element, element</b> <br>
+                หมายถึง attribute ของ HTML element 
+              </li>
+              <li>
+                <b>Class</b> <br>
+                หมายถึง class ของ HTML element
+              </li>
+              <li>
+                <b>ID</b> <br>
+                หมายถึง id ของ HTML element
+              </li>
+              <li>
+                <b>Rule</b> <br>
+                หมายถึง CSS rule ซึ่งจะประกอบไปด้วย selector และ declaration
+              </li>
+              <li>
+                <b>Selector</b> <br>
+                หมายถึง selector ของ rule ซึ่งใช้สำหรับระบุ element ที่จะใช้งานของ rule นี้
+              </li>
+              <li>
+                <b>Declaration</b> <br>
+                หมายถึง declaration ของ rule ซึ่งใช้สำหรับเปลี่ยนแปลงรูปร่างของ element ประกอบไปด้วย property และ value
+              </li>
+              <li>
+                <b>Property</b> <br>
+                หมายถึง property ของ declaration ซึ่งใช้ระบุคุณสมบัติของ element
+              </li>
+            </ul>
+          </p>
+        </div>
+
+        <div class="col-12">
+          <h4 class="topic">ที่มา</h4>
+          &nbsp;&nbsp;&nbsp;&nbsp;การใช้งาน CSS นั้นจะมีการระบุ selector ให้กับแต่ละ rule เพื่อใช้ในการระบุ element ที่สามารถใช้ rule นี้ได้ ยกตัวอย่างเช่น <br>
+          <div align="center">
+            <div class="code" align="left">
+              .block{ <br>
+                &nbsp;   color:red;<br>
+              }<br>
+            </div>
+          </div>
+          หมายถึงจะใช้ rule นี้กับ element ที่มีคลาสเป็น block
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;แต่ถึงอย่างนั้น การระบุด้วย selector ก็ยังมีปัญหาในเรื่องของความสับสนอยู่ หาก element สามารถใช้ rule ได้มากกว่า 1 rule แล้ว element นั้นควรจะใช้ declaration ของ rule ตัวไหน
+          &nbsp;&nbsp;&nbsp;&nbsp;ยกตัวอย่างเช่น มี element 
+          <code>
+          &lt;p class="block" id="box1"&gt;...&lt;/p&gt; 
+          </code>
+          และมี rule ดังนี้
+          <div align="center">
+            <div class="code">
+              .block{<br>
+                &nbsp;color:red;<br>
+              #box{<br>
+              }<br>
+                &nbsp;color:green;<br>
+              }<br>
+            </div>
+          </div>
+          ซึ่งจะเห็นได้ว่า element &lt;p&gt; มีคุณสมบัติตรงกับ selector ของ rule ทั้งสอง ปัญหาที่ตามมาก็คือว่า element ตัวนี้ ควรจะใช้ rule ตัวไหน
+        </div>
+
+        <div class="col-12">
+          <h4 class="topic">หลักการทำงาน</h4>
+          &nbsp;&nbsp;&nbsp;&nbsp;สิ่งที่จะใช้แก้ไขปัญหาความสับสนนี้ก็คือสิ่งที่เรียกว่า “CSS Specificity” ซึ่งทำงานโดยใช้เป็นค่าเพื่อวัดระดับความสำคัญของ rule โดยจะทำงานเมื่อ element เหมาะสมกับ rule มากกว่า 1 rule และใน rule เหล่านั้น มี declaration ที่มี property ซ้ำกัน ตัวอย่างเช่น
+          <div align="center">
+            <div class="code">
+              .block{ <br>
+                &nbsp;color:red; <br>
+              } <br>
+              #box{ <br>
+                &nbsp;color:green;<br>
+              } <br>
+              &lt;div class="block" id="box"&gt;...&lt;/div&gt;
+            </div>
+          </div>
+          จากตัวอย่างนี้จะเห็นได้ว่าทั้งสอง rule มี property ที่ซ้ำกันคือ color ซึ่งจะต้องใช้ specificity เข้ามาช่วย
+          <div align="center">
+            <div class="code">
+              .block{ <br>
+                &nbsp;color:red; <br>
+              } <br>
+              #banner{ <br>
+                &nbsp;background:black; <br>
+              } <br>
+              &lt;div class="block" id="banner"&gt;...&lt;/div&gt;
+            </div>
+          </div>
+          จากตัวอย่างที่สองนี้จะเห็นได้ว่า rule ทั้งสองไม่ได้มี property ที่ซ้ำกัน ฉะนั้นจึงไม่จำเป็นที่จะต้องใช้ specificity เข้ามาช่วย โดย element จะใช้ declaration จาก rule ที่มีค่า specifity สูงสุด
+        </div>
+
+        <div class="col-12">
+          <h4 class="topic">การคำนวณหาค่า Specificity</h4>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;สำหรับวิธีการคำนวนหาค่า specificity ของแต่ละ rule สามารถทำได้โดยดูจาก selector ของ rule นั้นๆ สามารถคำนวณได้ดังนี้
+            <ul style="padding-left: 4em;">
+              <li>
+                inline style    มีค่า   1000 point
+              </li>
+              <li>
+                id      มีค่า   100 point
+              </li>
+              <li>
+                class       มีค่า   10 point
+              </li>
+              <li>
+                attribute   มีค่า   10 point
+              </li>
+              <li>
+                pseudo class    มีค่า 10 point
+              </li>
+              <li>
+                element   มีค่า   1 point
+              </li>
+              <li>
+                pseudo element  มีค่า   1 point
+              </li>
+            </ul>
+            ตัวอย่างเช่น <br>
+            <div style="padding-left: 3em; ">
+              #box{...}   มีค่า 100 point
+              <ul>
+                <li>
+                  #box    (id)    100 point
+                </li>
+              </ul>
+              .block{...} มีค่า 10 point
+              <ul>
+                <li>  
+                  .block  (class)     10 point
+                </li>
+              </ul>
+              div .block{...} มีค่า 11 point
+              <ul>
+                <li>
+                  div   (element) 1 point
+                </li>
+                <li>
+                  .block  (class)   10 point
+                </li>
+              </ul>
+              a:hover{...}  มีค่า 11 point
+              <ul>
+                <li>
+                  a   (element) 1 point
+                </li>
+                <li>
+                  :hover  (pseudo class)  10 point
+                </li>
+              </ul>
+            </div>
+            สำหรับการคำนวณค่า specificity นั้นสามารถทดลองคำนวณได้ผ่านทางเว็บไซต์ <a href="https://specificity.keegan.st/ ">Specificity Calculator</a>
+
+          </p>
+        </div>
+
+        <div class="col-12">
+          <h4 class="topic">เทคนิคการใช้ CSS specifity</h4>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;สำหรับเทคนิคการใช้ CSS Specificity นั้น ควรหลีกเลี่ยงดังนี้
+            <ol style="padding-left: 4em;">
+              <li>
+                การใช้ ID selector
+                <p>
+                  การใช้ ID selector นั้นจะทำให้มีค่า specificity ที่สูงมาก ทำให้เขียนทับได้ยาก หากไม่จำเป็นควรหลักเลี่ยง
+                </p>
+              </li>
+              <li>
+                การใช้ selector ซ้อนกัน
+                <p>
+                  การใช้ selector ซ้อนกันจะทำให้ค่า specifity สูงเกินไปเช่นเดียวกัน เช่น .block .block-inside{...} หากไม่จำเป็นควรหลีกเลี่ยง
+                </p>
+              </li>
+              <li>
+                การเขียน selector แบบเจาะจงมากเกินไป
+                <p>
+                  การใช้ selector แบบเจาะจง จะทำให้ specificity สูงเกินไปเช่นกัน ยกตัวอย่างเช่น div.block{...} หากไม่จำเป็นควรหลีกเลี่ยง
+                </p>
+              </li>
+              <li>
+                การใช้ class น้อยๆ
+                <p>
+                  class selector เป็น selector ที่มีค่า specificity น้อยและสามารถนำกลับมาใช้ใหม่ได้ ดังนั้นเป็นไปได้ควรใช้ class ให้บ่อยๆ
+                </p>
+              </li>
+            </ol>
+          นอกจากนี้ยังมีเทคนิคอื่นๆที่สามารถเพิ่มหรือลดค่าของ specficity ดังนี้
+          <ol style="padding-left: 4em;">
+            <li>
+              การใช้ attribute selector แทน id selector
+              <p>
+                การใช้ id selector เช่น #box จะทำให้มีค่า specificity 100 แต่ถ้าหากใช้ attribute selector เช่น [id="box"] จะมีค่า specificity เหลือเพียงแค่ 10 เท่านั้น
+              </p>
+            </li>
+            <li>
+              การใช้ selector ซ้ำเพื่อเพิ่มค่่า specificity
+              <p>
+                การใช้ .block จะทำให้มีค่า speificity 10 แต่ถ้าหากต้องการเพิ่ม สามารถทำได้โดยซ้ำลงไปอีกครั้ง เช่น
+              .block.block จะทำให้มีค่า specifity 20
+              </p>
+            </li>
+          </ol>
+          </p>
+        </div>
+        <!-- end of row -->
+      </div>
+
+      <div class="row font-kanit" style="padding: 16px">
+        <h4 class="topic">
+          Reference
+        </h4>
+        <ol>
+          <li>
+            <a href="https://www.designil.com/css-specificity-and-hack.html">CSS Specificity พื้นฐานการเขียน CSS ที่คนส่วนใหญ่ไม่รู้ & เทคนิค Hack (Online). </a>
+          </li>
+          <li>
+            <a href="https://www.w3schools.com/cssref/css_selectors.asp">CSS Selector Reference</a>
+          </li>
+          <li>
+            <a href="https://www.w3.org/TR/css3-selectors/#specificity">Selector Level 3</a>
+          </li>
+          <li>
+            <a href="https://specificity.keegan.st/">Specificity Calculator</a>
+          </li>
+        </ol>
+      </div>
+    </div>
+    
+  </div>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+</body>
+
+</html>
